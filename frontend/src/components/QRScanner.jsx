@@ -1,59 +1,47 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import React, { useState, useRef } from 'react';
 
 const QRScanner = ({ onScan, onClose }) => {
-  const [scanning, setScanning] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const scannerRef = useRef(null);
+  const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    if (!scanning) return;
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-    const scanner = new Html5QrcodeScanner(
-      'qr-reader',
-      {
-        qrbox: {
-          width: 250,
-          height: 250,
-        },
-        fps: 10,
-        supportedScanTypes: [
-          Html5QrcodeScanType.SCAN_TYPE_QR_CODE,
-          Html5QrcodeScanType.SCAN_TYPE_CAMERA
-        ]
-      },
-      false
-    );
-
-    scanner.render(
-      (decodedText) => {
-        // Escaneo exitoso
-        setScanning(false);
-        scanner.clear();
-        onScan(decodedText);
-      },
-      (errorMessage) => {
-        // Solo mostrar errores que no sean de "no se encontró código"
-        if (!errorMessage.includes('No MultiFormat Readers')) {
-          setError(errorMessage);
-        }
-      }
-    );
-
-    scannerRef.current = scanner;
-
-    return () => {
-      if (scannerRef.current) {
-        scannerRef.current.clear().catch(error => {
-          console.error('Failed to clear html5QrcodeScanner.', error);
-        });
-      }
-    };
-  }, [scanning, onScan]);
-
-  const restartScanner = () => {
-    setScanning(true);
+    setLoading(true);
     setError('');
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const qrCode = prompt(
+        'Procesamiento de QR por imagen no disponible aún.\n\nPor favor, ingrese manualmente el código QR (formato: TIOWICHO:123):',
+        'TIOWICHO:'
+      );
+      
+      if (qrCode && qrCode.trim()) {
+        onScan(qrCode.trim());
+      }
+    } catch (error) {
+      setError('Error al procesar el código QR');
+    } finally {
+      setLoading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleManualEntry = () => {
+    const qrCode = prompt(
+      'Ingrese el código QR del cliente (formato: TIOWICHO:123):',
+      'TIOWICHO:'
+    );
+    
+    if (qrCode && qrCode.trim()) {
+      onScan(qrCode.trim());
+    }
   };
 
   return (
@@ -71,61 +59,67 @@ const QRScanner = ({ onScan, onClose }) => {
 
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            <p className="font-semibold">Error de cámara:</p>
-            <p className="text-sm">{error}</p>
-            <button
-              onClick={restartScanner}
-              className="mt-2 text-sm text-red-600 hover:text-red-800 underline"
-            >
-              Reintentar
-            </button>
+            {error}
           </div>
         )}
 
-        <div className="border-2 border-dashed border-gray-300 rounded-lg p-2 mb-4">
-          {scanning ? (
-            <div id="qr-reader" className="w-full"></div>
-          ) : (
-            <div className="h-64 flex items-center justify-center bg-gray-100 rounded-lg">
-              <div className="text-center">
-                <div className="text-4xl mb-2">✅</div>
-                <p className="text-gray-600">Escaneo completado</p>
-                <button
-                  onClick={restartScanner}
-                  className="mt-2 text-sm text-blue-600 hover:text-blue-800"
-                >
-                  Escanear otro código
-                </button>
-              </div>
-            </div>
-          )}
+        <div className="space-y-4">
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+            <div className="text-4xl mb-2">📸</div>
+            <h3 className="font-semibold mb-2">Subir imagen del QR</h3>
+            <p className="text-sm text-gray-600 mb-3">
+              Tome una foto del código QR y súbala aquí
+            </p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileUpload}
+              className="hidden"
+              id="qr-file"
+            />
+            <label
+              htmlFor="qr-file"
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 inline-block cursor-pointer"
+            >
+              {loading ? 'Procesando...' : 'Seleccionar Imagen'}
+            </label>
+          </div>
+
+          <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center bg-blue-50">
+            <div className="text-4xl mb-2">⌨️</div>
+            <h3 className="font-semibold mb-2">Ingresar código manualmente</h3>
+            <p className="text-sm text-gray-600 mb-3">
+              Si tiene el código QR en texto, ingréselo aquí
+            </p>
+            <button
+              onClick={handleManualEntry}
+              className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+            >
+              Ingresar Código Manualmente
+            </button>
+          </div>
+
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+            <p className="text-sm text-yellow-800">
+              <strong>Formato esperado:</strong> TIOWICHO:123
+              <br />
+              <strong>Ejemplo:</strong> TIOWICHO:456
+            </p>
+          </div>
         </div>
 
-        <div className="text-center">
-          <p className="text-sm text-gray-600 mb-4">
-            Apunte la cámara al código QR del cliente
-          </p>
-          
+        <div className="mt-6 text-center">
           <button
             onClick={onClose}
-            className="btn-danger"
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
           >
             Cerrar Escáner
           </button>
         </div>
-
-        <div className="mt-4 text-xs text-gray-500 bg-gray-50 p-2 rounded">
-          <strong>Consejo:</strong> Asegúrese de permitir el acceso a la cámara cuando el navegador lo solicite.
-        </div>
       </div>
     </div>
   );
-};
-
-// Necesitamos definir Html5QrcodeScanType ya que no está exportado por defecto
-const Html5QrcodeScanType = {
-  SCAN_TYPE_CAMERA: 1,
-  SCAN_TYPE_QR_CODE: 2
 };
 
 export default QRScanner;

@@ -1,52 +1,48 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ClientInfo = ({ client, onBack }) => {
+const ClientInfo = ({ client, onBack, onAddPoints, onRedeemPoints }) => {
   return (
-    <div className="space-y-6">
+    <div className="fade-in">
       <button 
         onClick={onBack}
-        className="flex items-center text-gray-600 hover:text-gray-800 mb-4"
+        className="btn-vaquero-secondary mb-6"
       >
-        ← Volver al escáner
+        ← Volver al Inicio
       </button>
 
-      <div className="card">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-          👤 Información del Cliente
-        </h2>
-        
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="space-y-4">
+      <div className="client-card-vaquero">
+        <div className="text-center mb-6">
+          <div className="client-avatar">
+            🤠
+          </div>
+          <h2 className="app-title text-2xl mb-2">{client.nombre}</h2>
+          <p className="text-gray-600">Cliente de El TioWicho</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-3">
             <div>
-              <label className="font-semibold text-gray-700">Nombre:</label>
-              <p className="text-lg">{client.nombre}</p>
-            </div>
-            
-            <div>
-              <label className="font-semibold text-gray-700">Teléfono:</label>
+              <label className="font-semibold">📞 Teléfono:</label>
               <p className="text-lg">{client.telefono}</p>
             </div>
-            
             <div>
-              <label className="font-semibold text-gray-700">Email:</label>
+              <label className="font-semibold">📧 Email:</label>
               <p className="text-lg">{client.email || 'No especificado'}</p>
             </div>
-            
             <div>
-              <label className="font-semibold text-gray-700">ID Cliente:</label>
+              <label className="font-semibold">🆔 ID Cliente:</label>
               <p className="text-lg font-mono">{client.id}</p>
             </div>
           </div>
           
-          <div className="space-y-4">
-            <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white p-4 rounded-lg text-center">
-              <div className="text-3xl font-bold">{client.puntos_acumulados}</div>
-              <div className="text-sm">PUNTOS ACUMULADOS</div>
+          <div className="space-y-3">
+            <div className="puntos-display">
+              <div className="puntos-number">{client.puntos_acumulados}</div>
+              <div className="text-lg">PUNTOS ACUMULADOS</div>
             </div>
-            
             <div>
-              <label className="font-semibold text-gray-700">Cliente desde:</label>
+              <label className="font-semibold">🤠 Cliente desde:</label>
               <p className="text-lg">
                 {new Date(client.fecha_registro).toLocaleDateString('es-MX', {
                   year: 'numeric',
@@ -58,54 +54,42 @@ const ClientInfo = ({ client, onBack }) => {
           </div>
         </div>
 
-        {client.codigo_qr_url && (
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <h3 className="font-semibold text-gray-700 mb-3">Código QR del Cliente:</h3>
-            <div className="flex justify-center">
-              <img 
-                src={client.codigo_qr_url} 
-                alt="Código QR del cliente"
-                className="w-32 h-32 border-2 border-gray-300 rounded-lg"
-              />
+        {/* Acciones Rápidas */}
+        <div className="action-grid">
+          <button
+            onClick={onAddPoints}
+            className="action-card btn-vaquero"
+          >
+            <div className="action-icon">➕</div>
+            <div className="action-title">Agregar Puntos</div>
+            <div className="action-description">Registrar compra del cliente</div>
+          </button>
+          
+          <button
+            onClick={onRedeemPoints}
+            disabled={client.puntos_acumulados <= 0}
+            className={`action-card ${
+              client.puntos_acumulados <= 0 ? 'bg-gray-300' : 'btn-vaquero-secondary'
+            }`}
+          >
+            <div className="action-icon">🎁</div>
+            <div className="action-title">Canjear Puntos</div>
+            <div className="action-description">
+              {client.puntos_acumulados > 0 ? 
+                `${client.puntos_acumulados} puntos disponibles` : 
+                'Sin puntos disponibles'}
             </div>
-          </div>
-        )}
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-4">
-        <Link
-          to={`/historial/${client.id}`}
-          className="card text-center hover:shadow-lg transition-shadow duration-200"
-        >
-          <div className="text-3xl mb-2">📊</div>
-          <h3 className="font-semibold">Historial</h3>
-          <p className="text-sm text-gray-600">Ver transacciones</p>
-        </Link>
-        
-        <button
-          onClick={() => window.location.hash = 'add'}
-          className="card text-center hover:shadow-lg transition-shadow duration-200 bg-green-50 border-green-200"
-        >
-          <div className="text-3xl mb-2">➕</div>
-          <h3 className="font-semibold">Agregar Puntos</h3>
-          <p className="text-sm text-gray-600">Registrar compra</p>
-        </button>
-        
-        <button
-          onClick={() => window.location.hash = 'redeem'}
-          disabled={client.puntos_acumulados <= 0}
-          className={`card text-center hover:shadow-lg transition-shadow duration-200 ${
-            client.puntos_acumulados <= 0 
-              ? 'bg-gray-100 border-gray-200 text-gray-400' 
-              : 'bg-blue-50 border-blue-200'
-          }`}
-        >
-          <div className="text-3xl mb-2">🎁</div>
-          <h3 className="font-semibold">Canjear Puntos</h3>
-          <p className="text-sm text-gray-600">
-            {client.puntos_acumulados > 0 ? 'Usar puntos' : 'Sin puntos'}
-          </p>
-        </button>
+          </button>
+          
+          <Link
+            to={`/historial/${client.id}`}
+            className="action-card btn-vaquero"
+          >
+            <div className="action-icon">📊</div>
+            <div className="action-title">Ver Historial</div>
+            <div className="action-description">Todas las transacciones</div>
+          </Link>
+        </div>
       </div>
     </div>
   );

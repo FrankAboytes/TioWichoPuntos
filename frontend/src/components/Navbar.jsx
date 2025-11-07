@@ -5,28 +5,26 @@ const Navbar = () => {
   const location = useLocation();
 
   const navItems = [
-    { path: '/', label: '🏠 Dashboard', icon: '🏠' },
-    { path: '/registro', label: '👤 Registrar Cliente', icon: '👤' },
+    { path: '/', label: '🏠 Inicio', icon: '🏠' },
+    { path: '/registro', label: '🤠 Registrar Cliente', icon: '🤠' },
     { path: '/buscar', label: '🔍 Buscar Clientes', icon: '🔍' },
   ];
 
   return (
-    <nav className="bg-primary-600 text-white shadow-lg">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
-          <Link to="/" className="text-xl font-bold">
-            🍖 El TioWicho - Sistema de Puntos
+    <nav className="navbar-vaquero">
+      <div className="container">
+        <div className="flex justify-between items-center">
+          <Link to="/" className="navbar-brand app-title">
+            🤠 El TioWicho - Saloon & Restaurant
           </Link>
           
-          <div className="flex space-x-4">
+          <div className="flex space-x-2">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                  location.pathname === item.path
-                    ? 'bg-primary-700 text-white'
-                    : 'text-primary-100 hover:bg-primary-500 hover:text-white'
+                className={`nav-link-vaquero ${
+                  location.pathname === item.path ? 'active' : ''
                 }`}
               >
                 {item.label}

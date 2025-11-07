@@ -1,113 +1,594 @@
+/* ===== ESTILOS VAQUERO - VIEJO OESTE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  /* Paleta de colores vaquera */
+  --color-primary: #8B4513;      /* Marrón saddle brown */
+  --color-primary-dark: #654321;  /* Marrón oscuro */
+  --color-primary-light: #A0522D; /* Marrón claro */
+  --color-secondary: #D2691E;     /* Marrón chocolate */
+  --color-accent: #CD853F;        /* Marrón peru */
+  --color-background: #F5F5DC;    /* Beige claro */
+  --color-card: #FFF8DC;          /* Beige blanco */
+  --color-text: #2F1B0A;         /* Marrón muy oscuro */
+  --color-text-light: #5D4037;   /* Marrón medio */
+  --color-success: #228B22;      /* Verde forest */
+  --color-warning: #FF8C00;      /* Naranja oscuro */
+  --color-error: #8B0000;        /* Rojo oscuro */
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--color-background) 0%, #F0E68C 100%);
+  color: var(--color-text);
+  line-height: 1.6;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* ===== TIPOGRAFÍA ESTILO VAQUERO ===== */
+.app-title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.3);
+  letter-spacing: 1px;
 }
 
-button {
+.section-title {
+  font-family: 'Georgia', serif;
+  border-bottom: 3px double var(--color-primary);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== BOTONES ESTILO VAQUERO ===== */
+.btn-vaquero {
+  background: linear-gradient(to bottom, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
+  font-weight: bold;
+  padding: 12px 24px;
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  border: 2px solid var(--color-primary-dark);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(139, 69, 19, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer components {
-  .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200;
-  }
-  
-  .btn-secondary {
-    @apply bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200;
-  }
-  
-  .btn-danger {
-    @apply bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200;
-  }
-  
-  .card {
-    @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
-  }
-  
-  .form-input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
-  }
-  
-  .form-label {
-    @apply block text-sm font-medium text-gray-700 mb-2;
-  }
+.btn-vaquero:hover {
+  background: linear-gradient(to bottom, var(--color-primary-light) 0%, var(--color-primary) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(139, 69, 19, 0.4);
 }
 
-/* Estilos personalizados adicionales */
-.loading-spinner {
-  border: 2px solid #f3f3f3;
-  border-top: 2px solid #dc2626;
+.btn-vaquero:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(139, 69, 19, 0.3);
+}
+
+.btn-vaquero:disabled {
+  background: #CCCCCC;
+  border-color: #999999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-vaquero-secondary {
+  background: linear-gradient(to bottom, var(--color-secondary) 0%, var(--color-primary) 100%);
+  border: 2px solid var(--color-primary);
+}
+
+.btn-vaquero-success {
+  background: linear-gradient(to bottom, #32CD32 0%, #228B22 100%);
+  border: 2px solid #228B22;
+}
+
+.btn-vaquero-danger {
+  background: linear-gradient(to bottom, #DC143C 0%, #8B0000 100%);
+  border: 2px solid #8B0000;
+}
+
+.btn-vaquero-large {
+  padding: 16px 32px;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+/* ===== TARJETAS ESTILO VAQUERO ===== */
+.card-vaquero {
+  background: var(--color-card);
+  border-radius: 12px;
+  border: 3px double var(--color-primary);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 16px rgba(139, 69, 19, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-vaquero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary));
+}
+
+.card-vaquero-header {
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== FORMULARIOS ESTILO VAQUERO ===== */
+.form-group-vaquero {
+  margin-bottom: 1.5rem;
+}
+
+.form-label-vaquero {
+  display: block;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  font-size: 16px;
+}
+
+.form-input-vaquero {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  background: white;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+.form-input-vaquero:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(205, 133, 63, 0.3);
+}
+
+/* ===== NAVBAR ESTILO VAQUERO ===== */
+.navbar-vaquero {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
+  padding: 1rem 0;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+  border-bottom: 3px double #F0E68C;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+}
+
+.nav-link-vaquero {
+  color: #F0E68C !important;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.nav-link-vaquero:hover {
+  background: rgba(240, 230, 140, 0.2);
+  color: white !important;
+}
+
+.nav-link-vaquero.active {
+  background: var(--color-accent);
+  color: white !important;
+}
+
+/* ===== PUNTOS Y ESTADÍSTICAS ===== */
+.puntos-display {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: var(--color-text);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 3px solid #B8860B;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(184, 134, 11, 0.3);
+}
+
+.puntos-number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--color-primary-dark);
+  text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.3);
+}
+
+/* ===== SCANNER QR ESTILO VAQUERO ===== */
+.scanner-container-vaquero {
+  border: 4px double var(--color-primary);
+  border-radius: 12px;
+  padding: 2rem;
+  background: white;
+  box-shadow: 0 8px 16px rgba(139, 69, 19, 0.3);
+}
+
+/* ===== GRID DE ACCIONES PARA MESEROS ===== */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.action-card {
+  background: white;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(139, 69, 19, 0.3);
+  border-color: var(--color-accent);
+}
+
+.action-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.action-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary-dark);
+}
+
+.action-description {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+}
+
+/* ===== CLIENT INFO ESTILO VAQUERO ===== */
+.client-card-vaquero {
+  background: linear-gradient(135deg, #FFF8DC 0%, #F5F5DC 100%);
+  border: 3px double var(--color-primary);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.client-avatar {
+  width: 80px;
+  height: 80px;
+  background: var(--color-primary);
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  animation: spin 1s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  margin: 0 auto 1rem;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+/* ===== UTILIDADES ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.max-w-md {
+  max-width: 28rem;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-md {
+  border-radius: 0.375rem;
+}
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.border-2 {
+  border-width: 2px;
+  border-style: solid;
+}
+
+.border-dashed {
+  border-style: dashed;
+}
+
+.hidden {
+  display: none;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.bg-opacity-75 {
+  opacity: 0.75;
+}
+
+.bg-black {
+  background-color: black;
+}
+
+.text-white {
+  color: white;
+}
+
+.text-gray-600 {
+  color: #666;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+}
+
+.text-6xl {
+  font-size: 3.75rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .navbar-vaquero .flex {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .puntos-number {
+    font-size: 2rem;
+  }
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* ===== ESTILOS PARA MESEROS (UX MEJORADO) ===== */
+.mesero-actions {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 3px double var(--color-primary);
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+.action-button-large {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.quick-action {
+  background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.quick-action:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
